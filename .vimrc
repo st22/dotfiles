@@ -79,3 +79,121 @@ if has('persistent_undo')
 endif
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\""
 
+
+
+""""""""""""""  setting for NeoBundle """"""""""""""
+
+" NeoBundle がインストールされていない時、
+" もしくは、プラグインの初期化に失敗した時の処理
+function! s:WithoutBundles()
+  colorscheme desert
+  " その他の処理
+endfunction
+
+" NeoBundle よるプラグインのロードと各プラグインの初期化
+function! s:LoadBundles()
+  " 読み込むプラグインの指定
+  NeoBundle 'Shougo/neobundle.vim'
+  NeoBundle 'tpope/vim-surround'
+  NeoBundle 'derekwyatt/vim-scala.git'
+  NeoBundle 'Shougo/unite.vim.git'
+  NeoBundle 'h1mesuke/unite-outline'
+  NeoBundle 'wincent/Command-T'
+  NeoBundle 'Shougo/neocomplcache.git'
+  NeoBundle 'Shougo/neosnippet.git'
+  NeoBundle 'Shougo/vimshell.git'
+  NeoBundle 'majutsushi/tagbar'
+  NeoBundle 'nathanaelkane/vim-indent-guides'
+  NeoBundle 'scrooloose/nerdtree'
+  NeoBundle 'szw/vim-tags'
+  NeoBundle 'tomasr/molokai.git'
+  NeoBundle 'vim-scripts/errormarker.vim.git'
+  " 読み込んだプラグインの設定
+  " ...
+endfunction
+
+" NeoBundle がインストールされているなら LoadBundles() を呼び出す
+" そうでないなら WithoutBundles() を呼び出す
+function! s:InitNeoBundle()
+  if isdirectory(expand("~/.vim/bundle/neobundle.vim/"))
+    filetype plugin indent off
+    if has('vim_starting')
+      set runtimepath+=~/.vim/bundle/neobundle.vim/
+    endif
+    try
+      call neobundle#rc(expand('~/.vim/bundle/'))
+      call s:LoadBundles()
+    catch
+      call s:WithoutBundles()
+    endtry 
+  else
+    call s:WithoutBundles()
+  endif
+
+  filetype indent plugin on
+  syntax on
+endfunction
+
+call s:InitNeoBundle()
+
+
+
+let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_dictionary_filetype_lists = {
+      \ 'default' : '',
+    \ 'scala' : $HOME . '/.vim/dict/scala.dict',
+    \ }
+
+"neosnippet
+
+"   Plugin key-mappings.
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+"   SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable() ?
+"\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable() ?
+"\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+"   For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+  endif
+  let g:neosnippet#snippets_directory='~/.vim/snippets'
+
+  " vimsehll
+  let g:vimshell_interactive_update_time = 10
+  let g:vimshell_prompt = $USER."% "
+  "vimshell map
+  nmap vs :VimShell<CR>
+  nmap vp :VimShellPop<CR>
+
+  " make
+  autocmd FileType scala :compiler sbt
+  autocmd QuickFixCmdPost make if len(getqflist()) != 0 | copen | endif
+
+  " marker
+  let g:errormarker_errortext     = '!!'
+  let g:errormarker_warningtext   = '??'
+  let g:errormarker_errorgroup    = 'Error'
+  let g:errormarker_warninggroup  = 'ToDo'
+
+  " TagBar
+  nmap <F8> :TagbarToggle<CR>
+
+  " NERDTree
+  nmap <silent> <C-e> :NERDTreeToggle<CR>
+  vmap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
+  omap <silent> <C-e> :NERDTreeToggle<CR>
+  imap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&  b:NERDTreeType == "primary") | q | endif
+  let g:NERDTreeShowHidden=1
+
+  " vim-tags
+  nnoremap <C-]> g<C-]>
+
+  " indent-guides
+  let g:indent_guides_guide_size = 1
+  let g:indent_guides_auto_colors = 1
+
+
+  nnoremap <silent> <Leader>o :<C-u>Unite -vertical -no-quit outline<CR>
