@@ -2,7 +2,6 @@ inoremap {<Enter> {}<Left><CR><ESC><S-o><tab>
 inoremap [<Enter> []<Left><CR><ESC><S-o>
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
 
-syntax on 
 set nocompatible
 
 " 画面表示の設定
