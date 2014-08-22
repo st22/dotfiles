@@ -1,7 +1,10 @@
 
-#autoload -U compinit && compinit
-#zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z} r:|[-_.]=**'
-#zstyle ':completion:*:processes' menu yes select=2
+
+autoload -U compinit && compinit
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z} r:|[-_.]=**'
+zstyle ':completion:*:processes' menu yes select=2
+
+
 
 
 # 補完候補を詰めて表示
@@ -54,4 +57,26 @@ PATH="/usr/local/lib:$PATH"
 
 
 
+# percol setting
 
+function exists { which $1 &> /dev/null }
+
+if exists percol; then
+  function percol_select_history() {
+    local tac
+    exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+    BUFFER=$(history -n 1 | eval $tac | percol --query "$LBUFFER")
+    CURSOR=$#BUFFER         # move cursor
+    zle -R -c               # refresh
+  }
+  
+  zle -N percol_select_history
+  bindkey '^R' percol_select_history
+fi
+
+
+######  autojump setting
+[[ -s /home/stokuda/.autojump/etc/profile.d/autojump.sh ]] && source /home/stokuda/.autojump/etc/profile.d/autojump.sh
+autoload -U compinit && compinit -u
+# for homebrew
+#[[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh

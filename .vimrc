@@ -1,8 +1,10 @@
+
 inoremap {<Enter> {}<Left><CR><ESC><S-o><tab>
 inoremap [<Enter> []<Left><CR><ESC><S-o>
 inoremap (<Enter> ()<Left><CR><ESC><S-o>
 
 set nocompatible
+syntax on
 
 " 画面表示の設定
 
@@ -156,43 +158,48 @@ smap <expr><TAB> neosnippet#expandable() ?
 "   For snippet_complete marker.
 if has('conceal')
   set conceallevel=2 concealcursor=i
-  endif
-  let g:neosnippet#snippets_directory='~/.vim/snippets'
+endif
 
-  " vimsehll
-  let g:vimshell_interactive_update_time = 10
-  let g:vimshell_prompt = $USER."% "
-  "vimshell map
-  nmap vs :VimShell<CR>
-  nmap vp :VimShellPop<CR>
-
-  " make
-  autocmd FileType scala :compiler sbt
-  autocmd QuickFixCmdPost make if len(getqflist()) != 0 | copen | endif
-
-  " marker
-  let g:errormarker_errortext     = '!!'
-  let g:errormarker_warningtext   = '??'
-  let g:errormarker_errorgroup    = 'Error'
-  let g:errormarker_warninggroup  = 'ToDo'
-
-  " TagBar
-  nmap <F8> :TagbarToggle<CR>
-
-  " NERDTree
-  nmap <silent> <C-e> :NERDTreeToggle<CR>
-  vmap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
-  omap <silent> <C-e> :NERDTreeToggle<CR>
-  imap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&  b:NERDTreeType == "primary") | q | endif
-  let g:NERDTreeShowHidden=1
-
-  " vim-tags
-  nnoremap <C-]> g<C-]>
-
-  " indent-guides
-  let g:indent_guides_guide_size = 1
-  let g:indent_guides_auto_colors = 1
+let g:neosnippet#snippets_directory='~/.vim/snippets'
 
 
-  nnoremap <silent> <Leader>o :<C-u>Unite -vertical -no-quit outline<CR>
+
+
+
+" vimsehll
+let g:vimshell_interactive_update_time = 10
+let g:vimshell_prompt = $USER."% "
+"vimshell map
+nmap vs :VimShell<CR>
+nmap vp :VimShellPop<CR>
+
+" make
+autocmd FileType scala :compiler sbt
+autocmd QuickFixCmdPost make if len(getqflist()) != 0 | copen | endif
+
+" marker
+let g:errormarker_errortext     = '!!'
+let g:errormarker_warningtext   = '??'
+let g:errormarker_errorgroup    = 'Error'
+let g:errormarker_warninggroup  = 'ToDo'
+
+" TagBar
+nmap <F8> :TagbarToggle<CR>
+
+" NERDTree
+nmap <silent> <C-e> :NERDTreeToggle<CR>
+vmap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
+omap <silent> <C-e> :NERDTreeToggle<CR>
+imap <silent> <C-e> <Esc> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&  b:NERDTreeType == "primary") | q | endif
+let g:NERDTreeShowHidden=1
+
+" vim-tags
+nnoremap <C-]> g<C-]>
+
+" indent-guides
+let g:indent_guides_guide_size = 1
+let g:indent_guides_auto_colors = 1
+
+
+nnoremap <silent> <Leader>o :<C-u>Unite -vertical -no-quit outline<CR>
