@@ -101,7 +101,7 @@ function! s:LoadBundles()
   NeoBundle 'h1mesuke/unite-outline'
   NeoBundle 'wincent/Command-T'
   NeoBundle 'Shougo/neocomplcache.git'
-  NeoBundle 'Shougo/neosnippet.git'
+"  NeoBundle 'Shougo/neosnippet.git'
   NeoBundle 'Shougo/vimshell.git'
   NeoBundle 'majutsushi/tagbar'
   NeoBundle 'nathanaelkane/vim-indent-guides'

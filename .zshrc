@@ -28,9 +28,10 @@ setopt correct
 # History
 # ====================================
 HISTFILE=$HOME/.zsh-history
-HISTFILE=/Users/administrator/Dropbox/Sync/dot/.zsh-history
-HISTSIZE=100000
-SAVEHIST=100000
+#export HISTFILE=/Users/administrator/Dropbox/Sync/dot/.zsh-history
+export HISTFILE=~/dotfiles/.zsh-history
+export HISTSIZE=10000
+export SAVEHIST=10000
 
 # 重複履歴を無視
 setopt hist_ignore_dups     # ignore duplication command history list
